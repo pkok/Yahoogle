@@ -75,17 +75,39 @@ of 2210672 161030\\
 a 2136668 160832\\
 where the first column represents a unique term, the second column represents that term's total number of appearances in the set of documents and the third column represents the number of documents in which that term was found. In the table above, we see the 4 most "popular" unique terms in our index.
 
+\newpage
+
+\section{Applying Queries}
+
+After having indexed all the needed documents, the next step was to apply given queries on them. To run the queries, the present working directory should be /runquery and the command needed is $IndriRunQuery \text{ }indriqueries.xml \text{ } >output.txt$. 
+
+The $indriqueries.xml$ file contains significant parameters such as $<index>$, $<count>$ and $<trecFormat>$. The index parameter defines the directory where the indexed documents are saved, count defines the maximum number of results that will be taken into consideration (for example, if count is set to 100 we will consider only the 100 most relevant documents for our queries) and trecFormat should be set to "1" so that indri returns results in trec format.
+
+Moreover, the $indriqueries.xml$ file contains the queries that will be applied in the following format: 
+
+$<query>\\
+<number>C301</number>\\
+<text>Nestle \text{ }Brands</text>\\
+</query>$\\
+
+After running this command (only took a couple of seconds), the file "output.txt" was created, containing the results of each single query applied. The output file contains $count$ number of results for each query, defined by its $number$. Every line in this file contains the results of a specific query applied on a document, while the results are sorted by ascending score value and look like this: 
+
+C301 Q0 LA102994-0117 1 -5.6513 indri\\
+
+C301 is the query ID, LA102994-0117 is the document where query C301 was applied, 1 is the ranking of the score, which is represented by -5.6513. The score variable is of high importance because it actually tells us the grade of relevance between the query and the document.
 
 
 
+\section{Relevance Evaluation}
+
+The last step of this experiment was to evaluate the relevance of given queries to the indexed documents. In order to do that, we used the trec\_eval script  and the qrels.txt file. The qrels.txt file defines if there is any relevance between q query applied and a certain document, and each line looks like this: 
+
+C301 0 GH951120-000066 BOOL
 
 
+Where C301 defines the query ID, GH951120-000066 represents the document ID and the BOOL variable is "0" when the the document is irrelevant to the query and "1" when it is relevant.
 
-
-
-
-
-
+In order to run the relevance evaluation script, while working in the trec\_eval installation directory, we ran the command: $./trec\_eval \text{ } -q \text{ } -c \text{ } qrels.txt \text{ } output.txt \text{ }>evaluationResults.txt$ where $-q$ indicates we request results for each query individually (not only general results) and $-c$ indicates that the irrelevant documents (score equal to 0.0000) will also be taken into consideration when calculating the relevance score. After running this command, the file $evaluationResults.txt$ was created, containing the output of the relevance evaluation.
 
 
 
