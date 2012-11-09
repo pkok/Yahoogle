@@ -105,18 +105,33 @@ The last step of this experiment was to evaluate the relevance of given queries 
 C301 0 GH951120-000066 BOOL
 
 
-Where C301 defines the query ID, GH951120-000066 represents the document ID and the BOOL variable is "0" when the the document is irrelevant to the query and "1" when it is relevant.
+Where C301 defines the query ID, GH951120-000066 represents the document ID and the BOOL variable is "0" when the the document is irrelevant to the query and "1" when it is relevant. Important notice: we had to modify the qrels.txt file and erase half of its content because it contained relevance assessments for 50 queries while our indiqueries.xml file only contained 25 queries. As a consequence, running the following command gave us critically false results.
 
 In order to run the relevance evaluation script, while working in the trec\_eval installation directory, we ran the command: $./trec\_eval \text{ } -q \text{ } -c \text{ } qrels.txt \text{ } output.txt \text{ }>evaluationResults.txt$ where $-q$ indicates we request results for each query individually (not only general results) and $-c$ indicates that the irrelevant documents (score equal to 0.0000) will also be taken into consideration when calculating the relevance score. After running this command, the file $evaluationResults.txt$ was created, containing the output of the relevance evaluation.
 
+\newpage
 
 
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ccccccc}
+\textbf{ indexing method} & \textbf{unique terms} & \textbf{num\_rel\_rec} & \textbf{MAP} & \textbf{P5} & \textbf{P100} & \textbf{P1000} \\ \hline
+no stemming, no stopwords & 335273 & 300 & 0.2131 & 0.4000 & 0.1200 & 0.0120 \\
+no stemming, 3 stopwords & 335270 & 301 & 0.2131 & 0.4000 & 0.1204 & 0.0120 \\
+no stemming, 123 stopwords & 335150 & 302 & 0.2131 & 0.4080 & 0.1208 & 0.0121 \\
+porter stemming, no stopwords & 245295 & 398 & 0.2369 & 0.3920 & 0.1592 & 0.0159 \\
+porter stemming, 3 stopwords & 245294 & 382 & 0.2250 & 0.3600 & 0.1528 & 	0.0153 \\
+porter stemming, 123 stopwords &  245278 & 381 & 0.2252 & 0.3520 & 0.1524 & 	0.0152 \\	
+\end{tabular}
+\end{center}
+\caption{Results of trec\_eval with different input parameters.}
+\end{table}
 
 
+On Table 1, we see the various results after running trec\_eval with different indexing and/or stemming parameters. Note that the results shown are calculated over all queries. Num\_rel\_rec represents the total number of relevant documents retrieved over all queries, MAP stands for "mean average precision"  and P5, P100 \& P1000 represent precision after 5, 100 \& 1000 documents retrieved. Whenever 3 stopwords were used, those were "a", "the" and "of", derived from the results of section 3. The 123 stopwords used derive from the following website: http://www.ranks.nl/resources/stopwords.html
 
-
-
-
+\section{Conclusion}
+After installing and running indri and trec\_eval we were able to fully understand their function and behavior. We tried experimenting with the parametrization of the indexing parameters, adding stopwords and stemming methods, and comparing the results we got. We believe that after completing this first assignment we are now ready to face more complicated and challenging tasks.
 
 
 
