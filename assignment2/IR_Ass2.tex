@@ -57,7 +57,7 @@ As we can see from the formula above, the term $b$ plays an important role as it
 
 BM25's default value for $b$ is 0.75,and additionally for $k_1$ 1.25 is considered a reasonable value[1]. In this experiment, we keep the default value for $k_1$ and use the 3 different values of $b$ mentioned above.
 
-After studying the 3 retrieval models we hypothesize that BM25 will outperform BM11 and BM15, for the reason that it "balances" between the other two models aiming towards optimization regarding the document length factor. We believe that the extreme values of 0 and 1 for $b$ will give different but still worse results than those of $b=0.75$, both over all topics, and even per-topic. More, experiments have shown that BM11 outperforms BM15[2], so we expect BM11 to be the second-to-best model regarding performance.
+After studying the 3 retrieval models we hypothesize that BM25 will outperform BM11 and BM15 both on recall and MAP, for the reason that it "balances" between the other two models aiming towards optimization regarding the document length factor. We believe that the extreme values of 0 and 1 for $b$ will give different but still worse results than those of $b=0.75$, both over all topics, and even per-topic. More, experiments have shown that BM11 outperforms BM15[2], so we expect BM11 to be the second-to-best model regarding performance.
 
 
 
@@ -70,13 +70,103 @@ A deeper comparison between the three retrieval models is made in "Modern Infrom
 
 
 
+\section{Experimenting results}
+
+In this section we will present the results of our experiment, divided in two sections; results over all topics and some examples of per-topic results. Discussion and conclusions over the results will be presented in the next chapters.
+
+\subsection{Results over all topics}
+
+
+Results over  all topics are necessary to observe the general behavior of the algorithms. Below we present important results over metrics that describe the 3 different algorithms' average performances.
+
+
+\begin{center}
+\begin{table}[ht]
+\centering
+\begin{tabular}{c | c c c}
+   & BM11  & BM25 & BM15  \\  \hline
+MAP & 0.3491 & 0.4035 & 0.3068 \\
+Num\_rel\_ret & 4628 & 4738 & 4478 \\
+R-precision & 0.3728 & 0.4138 & 0.3402
+\end{tabular}
+\caption{Metrics over all topics}  
+\end{table}
+\end{center}
+
+\vspace{5cm}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.75]{dr.pdf}
+\caption{Precision after 5, 10, \dots, 1000 documents retrieved over all topics}
+
+\end{figure}
+
+\newpage 
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale = 0.75]{pr.pdf}
+\caption{Precision - Recall curve over all topics}
+
+\end{figure}
 
 
 
-\section{Results}
+\subsection{Per-topic results}
 
+Per-topic results will be presented in this section, in order to examine the models' behavior deeper into detail and point out interesting observations. Of course, it is not possible to examine each query one by one, so we will be examining those which we find important for our analysis.
+
+Below we present some metrics calculated from the 3 models over query No. 1 ("genetic modification"): 
+
+
+
+\begin{center}
+\begin{table}[ht]
+\centering
+\begin{tabular}{c | c c c}
+   & BM11  & BM25 & BM15  \\  \hline
+MAP & 0.3491 & 0.4035 & 0.3068 \\
+Num\_rel\_ret & 133 & 124 & 113 \\
+R-precision & 0.2418 & 0.2381 & 0.2088
+\end{tabular}
+\caption{Metrics over query No. 1}  
+\end{table}
+\end{center}
+
+\newpage
+
+The same metrics calculated over query No. 14 ("high protein diet"):
+
+
+\begin{center}
+\begin{table}[ht]
+\centering
+\begin{tabular}{c | c c c}
+   & BM11  & BM25 & BM15  \\  \hline
+MAP & 0.3932 & 0.4242 & 0.3507 \\
+Num\_rel\_ret & 68 & 70 & 63 \\
+R-precision & 0.3733 & 0.4000 & 0.3467
+\end{tabular}
+\caption{Metrics over query No. 14}  
+\end{table}
+\end{center}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.75]{dr2.pdf}
+\caption{Precision over 5, 10, \dots, 1000 documents retrieved on queries 1\& 14}
+
+\end{figure}
+
+\newpage
 
 \section{Discussion}
+Regarding our hypothesis, the results produced by the 3 different models over all topics are the ones we expected, as shown in Table 1 and Figure 1. BM25 clearly dominates both BM15 and BM11 on MAP and Recall, while BM11 overperforms[2] BM15 as mentioned in chapter 3. We can now safely state that BM25 is a "version" of combined BM11 \& BM15 which optimizes the models' performance. 
+
+Per-topic results generally confirm the hypothesis made aswell, however, in the two examples of the previous chapter we can see that BM11 performs as well as (or even better than) BM25 on certain queries. We believe that these results can be obtained by queries which are related to small-size documents. As derived from the formula presented in chapter 3, smaller documents increase the score of queries related to them. And while in BM11 we consider the document size to be more of more importance than in BM25, there is a chance BM11 can come up with higher scores than BM25.
+
+
 
 \section{Conclusion}
 
