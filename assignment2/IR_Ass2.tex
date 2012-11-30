@@ -28,7 +28,7 @@
 
 
 \section{Introduction}
-In the second lab assignment, the goal is to run a small scale IR experiment. That includes the proposal (hypothesis) and the evaluation of TREC's results. In comparison with Assignment 1, we will now emphasize on the interpretation of the output our experiment gives us, rather than the indexing/querying procedure itself. What we expect to obtain from this Assignment is knowledge on how to analyze and evaluate results after running a TREC experiment.
+In the second lab assignment, the goal is to run a small scale IR experiment. That includes a proposal (hypothesis) and the evaluation of TREC's results. In comparison with Assignment 1, we will now emphasize on the interpretation of the output our experiment gives us, rather than the indexing/querying procedure itself. What we expect to obtain from this Assignment is knowledge on how to analyze and evaluate results after running a TREC experiment.
 
 
 \section{Description of the Data }
@@ -45,7 +45,7 @@ In this experiment we use porter stemming and there is no stopword removal.
 
 We want to compare 3 different but closely related retieval models, BM25, BM15 and BM11. The research questions are "Which one of these models performs better?" and "Does one model perform better over all topics or are there per-topic differences, and why?". Before we hypothesize, we find it important to point out the difference between the 3 retrieval models.
 
-BM(Best Match) 25 is a bag-of-words retrieval function that ranks a set of documents based on the query terms appearing in each document, regardless of the inter-relationship between the query terms within a document[1]. BM25 was created as a combination of the BM11 and BM15 formulas[2] and uses the following fraction when computing a document's score:  
+BM(Best Match) 25 is a bag-of-words retrieval function that ranks a set of documents based on the query terms appearing in each document, regardless of the inter-relationship between the query terms within a document[1]. BM25 was created as a combination of the BM11 and BM15 formulas[2] and uses the following formula when computing a document's score:  
 \newpage
 $Score(D,Q) = \sum^n_{i=1}{IDF(q_i)} \times 	\frac{f(q_i,D) \times (k_1 +1)}{f(q_i,D) + k_1 \times (1-b+b\times \frac{|D|}{avgdl})}$
 
@@ -57,7 +57,7 @@ As we can see from the formula above, the term $b$ plays an important role as it
 
 BM25's default value for $b$ is 0.75,and additionally for $k_1$ 1.25 is considered a reasonable value[1]. In this experiment, we keep the default value for $k_1$ and use the 3 different values of $b$ mentioned above.
 
-After studying the 3 retrieval models we hypothesize that BM25 will outperform BM11 and BM15 both on recall and MAP, for the reason that it "balances" between the other two models aiming towards optimization regarding the document length factor. We believe that the extreme values of 0 and 1 for $b$ will give different but still worse results than those of $b=0.75$, both over all topics, and even per-topic. More, experiments have shown that BM11 outperforms BM15[2], so we expect BM11 to be the second-to-best model regarding performance.
+After studying the 3 retrieval models we hypothesize that BM25 will outperform BM11 and BM15 both on recall and MAP, for the reason that it "balances" between the other two models aiming towards optimization based on the document length factor. We believe that the extreme values of 0 and 1 for $b$ will give different but still worse results than those of $b=0.75$, both over all topics, and even per-topic. More, experiments have shown that BM11 outperforms BM15[2], so we expect BM11 to be the second-to-best model regarding performance.
 
 
 
@@ -77,7 +77,7 @@ In this section we will present the results of our experiment, divided in two se
 \subsection{Results over all topics}
 
 
-Results over  all topics are necessary to observe the general behavior of the algorithms. Below we present important results over metrics that describe the 3 different algorithms' average performances.
+Results over  all topics are necessary to observe the general behavior of the models. Below we present important results over metrics that describe the 3 different models' average performances.
 
 
 \begin{center}
@@ -115,7 +115,7 @@ R-precision & 0.3728 & 0.4138 & 0.3402
 
 \subsection{Per-topic results}
 
-Per-topic results will be presented in this section, in order to examine the models' behavior deeper into detail and point out interesting observations. Of course, it is not possible to examine each query one by one, so we will be examining those which we find important for our analysis.
+Per-topic results will be presented in this section, in order to examine the models' behavior deeper into detail and point out interesting observations. Of course, it is not possible to discuss each query one by one, so we will be examining those which we find important for our analysis.
 
 Below we present some metrics calculated from the 3 models over query No. 1 ("genetic modification"): 
 
@@ -162,14 +162,17 @@ R-precision & 0.3733 & 0.4000 & 0.3467
 \newpage
 
 \section{Discussion}
-Regarding our hypothesis, the results produced by the 3 different models over all topics are the ones we expected, as shown in Table 1 and Figure 1. BM25 clearly dominates both BM15 and BM11 on MAP and Recall, while BM11 overperforms[2] BM15 as mentioned in chapter 3. We can now safely state that BM25 is a "version" of combined BM11 \& BM15 which optimizes the models' performance. 
+Table 1 and Figure 1 show us that BM25 clearly dominates BM11 and BM15 on both MAP and Recall over all topics. After having observed these results we can now confidently state that BM25 is a "version" of combined BM11 and BM15 that optimizes performance. Moreover, comparing BM11 and BM15, it is obvious that BM11 performs significantly better. 
 
-Per-topic results generally confirm the hypothesis made aswell, however, in the two examples of the previous chapter we can see that BM11 performs as well as (or even better than) BM25 on certain queries. We believe that these results can be obtained by queries which are related to small-size documents. As derived from the formula presented in chapter 3, smaller documents increase the score of queries related to them. And while in BM11 we consider the document size to be more of more importance than in BM25, there is a chance BM11 can come up with higher scores than BM25.
+Per-topic results indicate better performance for BM25 regarding MAP, however, in the two examples of the previous chapter we can see that BM11 performs as well as (or even better than) BM25 on certain queries, regarding Recall. We believe that these results can be obtained by queries which are related to small-size documents. As derived from the formula presented in chapter 3, smaller documents increase the score of queries related to them. And while in BM11 we consider the document size to be of more importance than in BM25, there is a chance BM11 can come up with higher scores than BM25. Again, BM15 can clearly be considered as the worst performing model.
 
 
 
 \section{Conclusion}
 
+Regarding our hypothesis, the fact is that results over all topics confirm our prior beliefs. BM25 performs better than the other 2 models on all metrics examined, while BM11 dominates BM15 as stated in [2]. More, per-topic results aswell show us that our hypothesis was correct, even though the difference we observe between BM25 and BM11 is smaller than expected, and BM11 does occasionaly outperform BM25.
+
+We can now answer the questions of chapter 3 and say that BM25 performs better than the other two models over all topics, while applying BM11 over certain topics is sometimes the best choice regarding Recall.
 
 
 \begin{thebibliography}{9}
